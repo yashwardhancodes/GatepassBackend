@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Visitor {
+  id               Int       @id @default(autoincrement())
+  name             String
+  age              Int?
+  gender           String?
+  mobile           String?
+  email            String?
+  address          String?
+  reason           String
+  personToMeet     String?
+  status           String    @default("pending")
+  allocatedMinutes Int?
+  passId           String    @unique
+  qrUrl            String?
+  photoUrl         String?
+  requestTime      DateTime  @default(now())
+  approvalTime     DateTime?
+  entryTime        DateTime?
+  exitTime         DateTime?
+  expiryTime       DateTime?
+  
+  // 🆕 Added rejection tracking fields
+  rejectionReason  String?
+  rejectionTime    DateTime?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
