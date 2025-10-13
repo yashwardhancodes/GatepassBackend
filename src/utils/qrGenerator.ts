@@ -1,4 +1,3 @@
-
 import QRCode from "qrcode";
 import cloudinary from "../config/cloudinary.js";
 import { Readable } from "stream";
@@ -13,7 +12,8 @@ export const generateQrAndUpload = async (text: string): Promise<string> => {
       { folder: "gatepass_qrcodes" },
       (error, response) => {
         if (error) return reject(error);
-        resolve(response?.secure_url);
+        if (!response?.secure_url) return reject(new Error("Failed to get Cloudinary URL"));
+        resolve(response.secure_url);
       }
     );
     Readable.from(buffer).pipe(uploadStream);
