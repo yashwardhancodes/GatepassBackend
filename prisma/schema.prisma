@@ -14,6 +14,7 @@ model Visitor {
   gender           String?
   mobile           String?
   email            String?
+  aadharNumber     String?
   address          String?
   reason           String
   personToMeet     String?

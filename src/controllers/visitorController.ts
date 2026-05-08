@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import cloudinary from "../config/cloudinary.js";
 import { generateQrAndUpload } from "../utils/qrGenerator.js";
+import { sendApprovalWhatsApp } from "../utils/whatsapp.js";
 
 const prisma = new PrismaClient();
 
@@ -15,6 +16,7 @@ export const createVisitor = async (req: Request, res: Response) => {
       gender,
       mobile,
       email,
+      aadhar,
       address,
       reason,
       personToMeet,
@@ -41,6 +43,7 @@ export const createVisitor = async (req: Request, res: Response) => {
         gender,
         mobile,
         email,
+        aadharNumber: aadhar,
         address,
         reason,
         personToMeet,
@@ -49,6 +52,9 @@ export const createVisitor = async (req: Request, res: Response) => {
         status: "pending",
       },
     });
+
+    const io = req.app.get("io");
+    io?.emit("visitor:registered", visitor);
 
     res.status(201).json({
       message: "Visitor Registered Successfully",
@@ -83,6 +89,12 @@ export const approveVisitor = async (req: Request, res: Response) => {
 
     const io = req.app.get("io");
     io?.emit("visitor:approved", updated);
+
+    // Send WhatsApp notification — fire and forget (don't block the response)
+    if (updated.mobile) {
+      sendApprovalWhatsApp(updated.mobile, updated.name, updated.passId, allocatedMinutes)
+        .catch((err) => console.error("❌ WhatsApp send failed:", err.message));
+    }
 
     res.json({ message: "Visitor approved", visitor: updated });
   } catch (err) {
