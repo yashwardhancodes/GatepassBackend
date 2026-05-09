@@ -7,7 +7,11 @@
       "Bash(npx prisma migrate:*)",
       "Bash(tasklist:*)",
       "Bash(taskkill:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)"
     ]
   }
 }

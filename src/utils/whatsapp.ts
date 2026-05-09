@@ -21,10 +21,8 @@ export const sendApprovalWhatsApp = async (
     `Your visit request has been reviewed and *approved* by the admin.\n\n` +
     `📋 *Pass Details*\n` +
     `• Name: ${visitorName}\n` +
-    `• Allocated Time: ${allocatedMinutes} minute(s)\n` +
-    `• Pass ID: \`${passId}\`\n\n` +
-    `🔗 *View & download your QR gatepass here:*\n` +
-    `${gatepassLink}\n\n` +
+    `• Allocated Time: ${allocatedMinutes} minute(s)\n\n` +
+    `🔗 *View your QR gatepass:* ${gatepassLink}\n\n` +
     `Please show this QR code at the entrance. ` +
     `Your pass is valid for ${allocatedMinutes} minute(s) from the time of entry.\n\n` +
     `_— College Gatepass System_`;
